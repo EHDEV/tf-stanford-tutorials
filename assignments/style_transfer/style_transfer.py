@@ -62,6 +62,11 @@ def _create_content_loss(p, f):
         the content loss
 
     """
+    # Added by EH Begin
+    s = np.prod(p.shape)
+    closs = tf.contrib.losses.sum_of_squares(f, p)
+
+    # End
     pass
 
 def _gram_matrix(F, N, M):
