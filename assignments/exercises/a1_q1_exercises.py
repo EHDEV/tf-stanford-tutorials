@@ -21,7 +21,9 @@ out = tf.cond(tf.less(x, y), lambda: tf.add(x, y), lambda: tf.sub(x, y))
 # Return x + y if x < y, x - y if x > y, 0 otherwise.
 # Hint: Look up tf.case().
 ###############################################################################
-
+x = tf.random_uniform([], minval=-1, maxval=1)
+y = tf.random_uniform([], minval=-1, maxval=1)
+out2 = tf.cond(tf.less(x, y), lambda: tf.sub(x, y), lambda: tf.add(x,y))
 # YOUR CODE
 
 ###############################################################################
@@ -30,7 +32,9 @@ out = tf.cond(tf.less(x, y), lambda: tf.add(x, y), lambda: tf.sub(x, y))
 # Return a boolean tensor that yields Trues if x equals y element-wise.
 # Hint: Look up tf.equal().
 ###############################################################################
-
+x = tf.constant([[0, -2, -1], [0, 1, 2]])
+y = tf.zeros([3,3])
+out = tf.equal(x, y)
 # YOUR CODE
 
 ###############################################################################
@@ -45,7 +49,13 @@ out = tf.cond(tf.less(x, y), lambda: tf.add(x, y), lambda: tf.sub(x, y))
 # Then extract elements whose values are greater than 30.
 # Hint: Use tf.gather().
 ###############################################################################
-
+x = tf.constant([29.05088806,  27.61298943,  31.19073486,  29.35532951,
+  30.97266006,  26.67541885,  38.08450317,  20.74983215,
+  34.94445419,  34.45999146,  29.06485367,  36.01657104,
+  27.88236427,  20.56035233,  30.20379066,  29.51215172,
+  33.71149445,  28.59134293,  36.05556488,  28.66994858])
+out = tf.where(tf.greater(x, 30))
+out = tf.gather(out)
 # YOUR CODE
 
 ###############################################################################
@@ -53,7 +63,7 @@ out = tf.cond(tf.less(x, y), lambda: tf.add(x, y), lambda: tf.sub(x, y))
 # 2, ..., 6
 # Hint: Use tf.range() and tf.diag().
 ###############################################################################
-
+x = tf.diag(tf.range(start=1, limit=6))
 # YOUR CODE
 
 ###############################################################################
@@ -61,7 +71,7 @@ out = tf.cond(tf.less(x, y), lambda: tf.add(x, y), lambda: tf.sub(x, y))
 # Calculate its determinant.
 # Hint: Look at tf.matrix_determinant().
 ###############################################################################
-
+x = tf.random_poisson([10,10])
 # YOUR CODE
 
 ###############################################################################
@@ -70,6 +80,8 @@ out = tf.cond(tf.less(x, y), lambda: tf.add(x, y), lambda: tf.sub(x, y))
 # Hint: use tf.unique(). Keep in mind that tf.unique() returns a tuple.
 ###############################################################################
 
+x = tf.constant([5, 2, 3, 5, 10, 6, 2, 3, 4, 2, 1, 1, 0, 9])
+out, indexes = tf.unique(x)
 # YOUR CODE
 
 ###############################################################################
@@ -82,4 +94,11 @@ out = tf.cond(tf.less(x, y), lambda: tf.add(x, y), lambda: tf.sub(x, y))
 # Hint: see the Huber loss function in the lecture slides 3.
 ###############################################################################
 
+x = tf.random_normal([300])
+y = tf.random_normal([300])
+
+avgxmy = tf.reduce_mean(tf.sub(x, y))
+out = tf.cond(tf.less(avgxmy, 0), 
+              lambda: tf.losses.mean_squared_error(tf.sub(x, y), avgxmy), 
+              lambda: tf.losses.absolute_difference(tf.sub(x, y), avgxmy))
 # YOUR CODE
